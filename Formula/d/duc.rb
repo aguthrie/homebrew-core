@@ -1,12 +1,10 @@
 class Duc < Formula
   desc "Suite of tools for inspecting disk usage"
   homepage "https://github.com/zevv/duc"
-  url "https://github.com/zevv/duc/releases/download/1.4.5/duc-1.4.5.tar.gz"
-  sha256 "c69512ca85b443e42ffbb4026eedd5492307af612047afb9c469df923b468bfd"
+  url "https://github.com/zevv/duc/archive/refs/tags/1.4.6.tar.gz"
+  sha256 "1ae6d31394cc3fa7c44a9e4449baa405865c6c0ee447546a3cd8af6c642dda11"
   license "LGPL-3.0-only"
   head "https://github.com/zevv/duc.git", branch: "master"
-
-  no_autobump! because: :requires_manual_review
 
   bottle do
     sha256 cellar: :any,                 arm64_tahoe:    "737e5d14b749b58fa2640bc9a7ee42a49f7a546ea7332c928a3a19d274b8f875"
@@ -24,6 +22,8 @@ class Duc < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "8068dbd6bfa637aa4718113cff03ce8f8b641e65a379f489827b8acd3411f0e8"
   end
 
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
   depends_on "pkgconf" => :build
 
   depends_on "cairo"
@@ -40,6 +40,7 @@ class Duc < Formula
   end
 
   def install
+    system "autoreconf", "--force", "--install", "--verbose"
     system "./configure", "--disable-silent-rules",
                           "--disable-x11",
                           "--enable-opengl",
